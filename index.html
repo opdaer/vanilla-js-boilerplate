@@ -165,19 +165,19 @@
     </div>
 
     <div class="nav-bar">
-        <div class="nav-item active" onclick="showPage('homePage')">
+        <div class="nav-item active" onclick="showPage('homePage', event)">
             <img src="svg/home.svg" alt="Home" class="nav-icon">
             <span>首页</span>
         </div>
-        <div class="nav-item" onclick="showPage('tasksList')">
+        <div class="nav-item" onclick="showPage('tasksList', event)">
             <img src="svg/task.svg" alt="Task" class="nav-icon">
             <span>任务</span>
         </div>
-        <div class="nav-item" onclick="showPage('friendPage')">
+        <div class="nav-item" onclick="showPage('friendPage', event)">
             <img src="svg/friend.svg" alt="Friend" class="nav-icon">
             <span>朋友</span>
         </div>
-        <div class="nav-item" onclick="showPage('woodenFishPage')">
+        <div class="nav-item" onclick="showPage('woodenFishPage', event)">
             <img src="svg/pray.svg" alt="Pray" class="nav-icon">
             <span>木鱼祈祷</span>
         </div>
@@ -185,9 +185,16 @@
 
     <script>
         let tg = window.Telegram.WebApp;
-        tg.expand();
 
-        function showPage(pageId) {
+        if (tg) {
+            console.log("Telegram Web App initialized");
+            tg.expand();
+            tg.ready();
+        } else {
+            console.error("Telegram Web App initialization failed");
+        }
+
+        function showPage(pageId, event) {
             document.getElementById('homePage').style.display = 'none';
             document.getElementById('tasksList').style.display = 'none';
             document.getElementById('friendPage').style.display = 'none';
@@ -196,7 +203,9 @@
 
             // Update active nav item
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            event.currentTarget.classList.add('active');
+            if (event) {
+                event.currentTarget.classList.add('active');
+            }
         }
 
         document.getElementById('prayButton').addEventListener('click', function() {
