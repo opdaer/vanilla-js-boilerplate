@@ -19,32 +19,6 @@
             padding: 20px;
             text-align: center;
         }
-        .header {
-            font-size: 24px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .card {
-            background-color: #2c2c2c;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-        .task-icon {
-            width: 30px;
-            height: 30px;
-            margin-right: 10px;
-            vertical-align: middle;
-        }
-        .button {
-            background-color: #0088cc;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
         .nav-bar {
             position: fixed;
             bottom: 0;
@@ -64,122 +38,34 @@
         .nav-item.active {
             color: #0088cc;
         }
-        #tasksList, #friendPage, #woodenFishPage {
-            display: none;
-        }
-        .friend-card {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
         .nav-icon {
             width: 24px;
             height: 24px;
             margin-bottom: 5px;
         }
-        .woodenFish {
-            background: url('svg/muyu.jpg') no-repeat center;
-            background-size: contain;
-            width: 150px;
-            height: 150px;
-            margin: 20px auto;
-            cursor: pointer;
-        }
-        .woodenFish:active {
-            transform: scale(0.9);
-            transition: transform 0.1s ease-in-out;
-        }
-        .score {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-        .subtitle {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: #888;
-        }
     </style>
 </head>
 <body>
-    <div class="container" id="homePage">
-        <div class="header">FreePavelDurov</div>
-        <div class="card">
-            <h2>每日祈祷</h2>
-            <button class="button" id="prayButton">祈祷</button>
-        </div>
-    </div>
+    <!-- 动态内容区 -->
+    <div id="content"></div>
 
-    <div class="container" id="tasksList">
-        <div class="header">任务列表</div>
-        <div class="card">
-            <img src="svg/telegram.svg" alt="Telegram" class="task-icon">
-            Telegram Account Login
-            <span>+10K</span>
-        </div>
-        <div class="card">
-            <img src="svg/telegram.svg" alt="Telegram Premium" class="task-icon">
-            Telegram Premium Login
-            <span>+40K</span>
-        </div>
-        <div class="card">
-            <img src="svg/twitter.svg" alt="Twitter" class="task-icon">
-            Follow our X account
-            <span>+5K</span>
-            <button class="button" onclick="goToTwitter()">GO</button>
-        </div>
-        <div class="card">
-            <img src="svg/telegram.svg" alt="Telegram Channel" class="task-icon">
-            Join our TG channel
-            <span>+5K</span>
-            <button class="button" onclick="goToTelegramChannel()">GO</button>
-        </div>
-    </div>
-
-    <div class="container" id="friendPage">
-        <div class="header">邀请朋友</div>
-        <div class="card">
-            <h3>Invite a friend</h3>
-            <p>+10,000 for you and your friend</p>
-        </div>
-        <div class="card">
-            <h3>Invite a friend with Telegram Premium</h3>
-            <p>+50,000 for you and your friend</p>
-        </div>
-        <button class="button">Invite a friend</button>
-        <h3>List of your friends</h3>
-        <div class="card friend-card">
-            <span>@friend1</span>
-            <span>Premium</span>
-            <span>+10,000</span>
-        </div>
-    </div>
-
-    <!-- 木鱼功能页面 -->
-    <div class="container" id="woodenFishPage">
-        <div class="score" id="woodenFishCount">0</div>
-        <div class="subtitle">功德</div>
-        <div class="woodenFish" id="knockButton"></div>
-
-        <!-- 购买道具按钮 -->
-        <button class="button" id="buyItemButton">购买道具</button>
-    </div>
-
+    <!-- 导航栏 -->
     <div class="nav-bar">
-        <div class="nav-item active" onclick="showPage('homePage', event)">
+        <div class="nav-item" onclick="navigateTo('woodenFish.html')">
             <img src="svg/home.svg" alt="Home" class="nav-icon">
-            <span>首页</span>
+            <span>木鱼</span>
         </div>
-        <div class="nav-item" onclick="showPage('tasksList', event)">
+        <div class="nav-item" onclick="navigateTo('tasks.html')">
             <img src="svg/task.svg" alt="Task" class="nav-icon">
             <span>任务</span>
         </div>
-        <div class="nav-item" onclick="showPage('friendPage', event)">
+        <div class="nav-item" onclick="navigateTo('friend.html')">
             <img src="svg/friend.svg" alt="Friend" class="nav-icon">
             <span>朋友</span>
         </div>
-        <div class="nav-item" onclick="showPage('woodenFishPage', event)">
-            <img src="svg/pray.svg" alt="Pray" class="nav-icon">
-            <span>木鱼祈祷</span>
+        <div class="nav-item" onclick="navigateTo('leaderboard.html')">
+            <img src="svg/pray.svg" alt="Leaderboard" class="nav-icon">
+            <span>排行榜</span>
         </div>
     </div>
 
@@ -194,79 +80,18 @@
             console.error("Telegram Web App initialization failed");
         }
 
-        function showPage(pageId, event) {
-            document.getElementById('homePage').style.display = 'none';
-            document.getElementById('tasksList').style.display = 'none';
-            document.getElementById('friendPage').style.display = 'none';
-            document.getElementById('woodenFishPage').style.display = 'none';
-            document.getElementById(pageId).style.display = 'block';
-
-            // Update active nav item
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            if (event) {
-                event.currentTarget.classList.add('active');
-            }
+        // 动态加载页面
+        function navigateTo(page) {
+            fetch(page)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('content').innerHTML = html;
+                })
+                .catch(error => console.error('Error loading page:', error));
         }
 
-        document.getElementById('prayButton').addEventListener('click', function() {
-            if (localStorage.getItem('lastPrayTime') === new Date().toDateString()) {
-                alert('您今天已经祈祷过了，请明天再来！');
-                return;
-            }
-
-            this.disabled = true;
-            this.textContent = '祈祷中...';
-            setTimeout(() => {
-                this.disabled = false;
-                this.textContent = '祈祷';
-                alert('祈祷成功！');
-                localStorage.setItem('lastPrayTime', new Date().toDateString());
-            }, 2000);
-        });
-
-        // 木鱼敲击功能
-        document.getElementById('knockButton').addEventListener('click', function() {
-            let count = parseInt(localStorage.getItem('woodenFishCount')) || 0;
-            count++;
-            localStorage.setItem('woodenFishCount', count);
-            document.getElementById('woodenFishCount').innerText = count;
-        });
-
-        // 购买道具功能
-        document.getElementById('buyItemButton').addEventListener('click', function() {
-            const walletAddress = 'UQAYt4XUY3axUOnN1AGri6otErKAGHQdxFpM5jVpDObz1OIt'; // 替换为你的钱包地址
-            const amount = 1; // 设置支付金额，单位是TON币
-            const description = '购买道具';
-
-            const paymentUrl = `ton://transfer/${walletAddress}?amount=${amount}&text=${encodeURIComponent(description)}`;
-
-            // 打开支付页面
-            window.location.href = paymentUrl;
-        });
-
-        // 加载配置文件
-        fetch('config.json')
-            .then(response => response.json())
-            .then(config => {
-                window.appConfig = config;
-            })
-            .catch(error => console.error('Error loading config:', error));
-
-        function goToTwitter() {
-            if (window.appConfig && window.appConfig.twitterUrl) {
-                window.open(window.appConfig.twitterUrl, '_blank');
-            } else {
-                alert('Twitter链接未配置');
-            }
-        }
-
-        function goToTelegramChannel() {
-            if (window.appConfig && window.appConfig.telegramChannelUrl) {
-                window.open(window.appConfig.telegramChannelUrl, '_blank');
-            } else {
-                alert('Telegram频道链接未配置');
-            }
-        }
+        // 默认加载木鱼页面作为首页
+        navigateTo('woodenFish.html');
     </script>
 </body>
 </html>

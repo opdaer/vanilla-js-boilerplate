@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="score" id="woodenFishCount">0</div>
+    <div class="subtitle">功德</div>
+    <div class="woodenFish" id="knockButton"></div>
+    <button class="button" id="buyItemButton">购买道具</button>
+</div>
+
+<script>
+    document.getElementById('knockButton').addEventListener('click', function() {
+        let count = parseInt(localStorage.getItem('woodenFishCount')) || 0;
+        count++;
+        localStorage.setItem('woodenFishCount', count);
+        document.getElementById('woodenFishCount').innerText = count;
+    });
+
+    document.getElementById('buyItemButton').addEventListener('click', function() {
+        const walletAddress = 'UQAYt4XUY3axUOnN1AGri6otErKAGHQdxFpM5jVpDObz1OIt';
+        const amount = 1;
+        const description = '购买道具';
+
+        const paymentUrl = `ton://transfer/${walletAddress}?amount=${amount}&text=${encodeURIComponent(description)}`;
+        window.location.href = paymentUrl;
+    });
+</script>

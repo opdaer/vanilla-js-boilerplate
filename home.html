@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="header">FreePavelDurov</div>
+    <div class="card">
+        <h2>每日祈祷</h2>
+        <button class="button" id="prayButton">祈祷</button>
+    </div>
+</div>
+
+<script>
+    document.getElementById('prayButton').addEventListener('click', function() {
+        if (localStorage.getItem('lastPrayTime') === new Date().toDateString()) {
+            alert('您今天已经祈祷过了，请明天再来！');
+            return;
+        }
+
+        this.disabled = true;
+        this.textContent = '祈祷中...';
+        setTimeout(() => {
+            this.disabled = false;
+            this.textContent = '祈祷';
+            alert('祈祷成功！');
+            localStorage.setItem('lastPrayTime', new Date().toDateString());
+        }, 2000);
+    });
+</script>
